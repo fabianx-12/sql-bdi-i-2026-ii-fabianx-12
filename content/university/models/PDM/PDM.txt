@@ -1,0 +1,92 @@
+---
+config:
+  layout: elk
+---
+erDiagram
+    FACULTIES {
+        int faculty_id PK
+        string name
+    }
+
+    MAJORS {
+        int major_id PK
+        string name
+        int faculty_id FK
+    }
+
+    COURSES {
+        int course_id PK
+        string name
+        int faculty_id FK
+    }
+
+    BUILDINGS {
+        int building_id PK
+        string name
+    }
+
+    ROOMS {
+        int room_id PK
+        string name
+        int building_id FK
+    }
+
+    SCHEDULES {
+        int schedule_id PK
+        string day
+        string start_time
+        string end_time
+    }
+
+    ROLES {
+        int role_id PK
+        string name
+    }
+
+    USERS {
+        int user_id PK
+        string first_name
+        string last_name
+        int role_id FK
+    }
+
+    COURSE_OFFERINGS {
+        int offering_id PK
+        int course_id FK
+        int schedule_id FK
+        int room_id FK
+        int professor_id FK
+        int capacity
+    }
+
+    MAJOR_COURSES {
+        int course_id PK
+        int major_id PK
+        int curriculum_semester
+    }
+
+    STUDENT_MAJORS {
+        int major_id PK
+        int user_id PK
+        int current_semester
+    }
+
+    STUDENT_ENROLLMENTS {
+        int offering_id PK
+        int user_id PK
+    }
+
+    FACULTIES ||--o{ MAJORS : has
+    FACULTIES ||--o{ COURSES : offers
+    BUILDINGS ||--o{ ROOMS : contains
+    SCHEDULES ||--o{ COURSE_OFFERINGS : schedules
+    ROOMS ||--o{ COURSE_OFFERINGS : hosts
+    COURSES ||--o{ COURSE_OFFERINGS : offered_as
+    USERS ||--o{ COURSE_OFFERINGS : teaches
+    ROLES ||--o{ USERS : assigned_to
+    COURSES ||--o{ MAJOR_COURSES : includes
+    MAJORS ||--o{ MAJOR_COURSES : requires
+    MAJORS ||--o{ STUDENT_MAJORS : enrolled_in
+    USERS ||--o{ STUDENT_MAJORS : studies
+    COURSE_OFFERINGS ||--o{ STUDENT_ENROLLMENTS : has
+    USERS ||--o{ STUDENT_ENROLLMENTS : enrolled_in
