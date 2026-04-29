@@ -1,0 +1,88 @@
+erDiagram
+    FACULTIES {
+        int faculty_id PK
+        varchar name
+    }
+
+    MAJORS {
+        int major_id PK
+        varchar name
+        int faculty_id FK
+    }
+
+    COURSES {
+        int course_id PK
+        varchar name
+        int faculty_id FK
+    }
+
+    BUILDINGS {
+        int building_id PK
+        varchar name
+    }
+
+    ROOMS {
+        int room_id PK
+        varchar name
+        int building_id FK
+    }
+
+    SCHEDULES {
+        int schedule_id PK
+        varchar day
+        varchar start_time
+        varchar end_time
+    }
+
+    ROLES {
+        int role_id PK
+        varchar name
+    }
+
+    USERS {
+        int user_id PK
+        varchar first_name
+        varchar last_name
+        int role_id FK
+    }
+
+    COURSE_OFFERINGS {
+        int offering_id PK
+        int course_id FK
+        int schedule_id FK
+        int room_id FK
+        int professor_id FK
+        int capacity
+    }
+
+    MAJOR_COURSES {
+        int course_id PK, FK
+        int major_id PK, FK
+        int curriculum_semester
+    }
+
+    STUDENT_MAJORS {
+        int major_id PK, FK
+        int user_id PK, FK
+        int current_semester
+    }
+
+    STUDENT_ENROLLMENTS {
+        int offering_id PK, FK
+        int user_id PK, FK
+    }
+
+    %% Logical Relationships
+    FACULTIES ||--o{ MAJORS : "houses"
+    FACULTIES ||--o{ COURSES : "offers"
+    MAJORS ||--o{ MAJOR_COURSES : "includes"
+    COURSES ||--o{ MAJOR_COURSES : "belongs_to"
+    COURSES ||--o{ COURSE_OFFERINGS : "is_scheduled_as"
+    SCHEDULES ||--o{ COURSE_OFFERINGS : "defines_time_for"
+    ROOMS ||--o{ COURSE_OFFERINGS : "provides_space_for"
+    BUILDINGS ||--o{ ROOMS : "contains"
+    ROLES ||--o{ USERS : "classifies"
+    USERS ||--o{ STUDENT_MAJORS : "is_enrolled_in"
+    MAJORS ||--o{ STUDENT_MAJORS : "admits"
+    USERS ||--o{ STUDENT_ENROLLMENTS : "registers_for"
+    COURSE_OFFERINGS ||--o{ STUDENT_ENROLLMENTS : "has_students"
