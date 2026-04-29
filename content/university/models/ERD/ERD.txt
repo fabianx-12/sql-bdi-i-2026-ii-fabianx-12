@@ -1,0 +1,42 @@
+erDiagram
+    FACULTY ||--o{ MAJOR : "houses"
+    FACULTY ||--o{ COURSE : "offers"
+    MAJOR }|--|{ COURSE : "includes"
+    COURSE ||--o{ OFFERING : "is_scheduled_as"
+    SCHEDULE ||--o{ OFFERING : "defines_time"
+    ROOM ||--o{ OFFERING : "provides_space"
+    BUILDING ||--o{ ROOM : "contains"
+    ROLE ||--o{ USER : "classifies"
+    USER }|--|{ MAJOR : "enrolled_in"
+    USER }|--|{ OFFERING : "registers_to"
+
+    FACULTY {
+        string name
+    }
+    MAJOR {
+        string name
+    }
+    COURSE {
+        string name
+        string description
+    }
+    OFFERING {
+        int capacity
+    }
+    USER {
+        string name
+        string email
+    }
+    ROOM {
+        string room_number
+    }
+    BUILDING {
+        string name
+    }
+    SCHEDULE {
+        string day
+        time start
+    }
+    ROLE {
+        string role_name
+    }
